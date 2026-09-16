@@ -1,4 +1,5 @@
 package monitor.service;
+import monitor.repository.FileActivityRepository;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,7 +7,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ActivityService {
-
+	
+	private FileActivityRepository repository;
+	public ActivityService(){
+		repository = new FileActivityRepository();	
+	}
+	
     public void registrarAtividade() {
 
         LocalDateTime agora = LocalDateTime.now();
@@ -15,17 +21,8 @@ public class ActivityService {
                 DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
         String dataHora = agora.format(formato);
-
-        try (FileWriter arquivo = new FileWriter("historico.txt", true)) {
-
-            arquivo.write(dataHora + "\n");
-
-            System.out.println("Atividade registrada: " + dataHora);
-
-        } catch (IOException erro) {
-
-            System.out.println("Erro ao registrar atividade.");
-            erro.printStackTrace();
-        }
+        
+        repository.fileActivity(dataHora);
+        
     }
 }
