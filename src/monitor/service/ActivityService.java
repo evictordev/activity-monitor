@@ -1,5 +1,6 @@
 package monitor.service;
 import monitor.repository.FileActivityRepository;
+import monitor.util.FormatDate;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,14 +14,14 @@ public class ActivityService {
 		repository = new FileActivityRepository();	
 	}
 	
+	FormatDate formatDate = new FormatDate();
+	
+	
     public void registrarAtividade() {
 
         LocalDateTime agora = LocalDateTime.now();
 
-        DateTimeFormatter formato =
-                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
-        String dataHora = agora.format(formato);
+        String dataHora = formatDate.format(agora);
         
         repository.fileActivity(dataHora);
         
